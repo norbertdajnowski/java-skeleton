@@ -4,20 +4,27 @@ public class Question1 {
 
 	public static int bestMergedPortfolio(int[] portfolios) {
 		
-		int [][] finalPortfolio = new int [16][2];
-		int finalOutput = 0;
+		int [][] finalPortfolio = new int [portfolios.length][16];
 		
-		for (int x = 0; x <= 1 ; x++) {
+		ArrayList<Integer> binaryList = new ArrayList<Integer>();
+		
+		ArrayList<Integer> finalList = new ArrayList<Integer>();
+		
+		
+		// Take all porfolio's and convert to binary
+		
+		for (int x = 0; x <= portfolios.length - 1 ; x++) {
 			
 			int conversionIndex = 32768;
 			
 			for (int i = 15; i >= 0; i--) {
 			
+				//loop through every bit (16 bits), check if taking away the bit size leaves a number larger than 0
 				
 				if ((portfolios[x] - conversionIndex) >= 0) {
 
 					portfolios[x] = portfolios[x] - conversionIndex;
-					finalPortfolio[i][x] = 1;
+					finalPortfolio[x][i] = 1;
 					
 				}
 
@@ -26,34 +33,74 @@ public class Question1 {
 			}
 		}
 		
-		for (int i = 0; i <= 15; i++) {
+		// Merge every possible portfolio with another
+		
+		int indexMerge = 0;
+		
+		for (int z = 0; z <= portfolios.length - 1; z ++) {
+		
+		for (int y = portfolios.length - 1; y >= 0; y--) {			
+		
+		for (int i = 0; i <= 15 ; i++) {
 			
-			if ((finalPortfolio[i][0] == finalPortfolio[i][1]) && ((finalPortfolio[i][0] == 1) | (finalPortfolio[i][0] == 0))){
+			//create a sublist of 16 bit binaries, adding them to the end of a finallist
+			
+			if ((finalPortfolio[z][i] == finalPortfolio[y][i]) && ((finalPortfolio[z][i] == 1) | (finalPortfolio[y][i] == 0))){
 				
-				finalPortfolio[i][0] = 0;
+				binaryList.add(0);
 				
 			}
 			else {
 				
-				finalPortfolio[i][0] = 1;
+				binaryList.add(1);
 				
 			}
+			
 			
 		}
-
-		int conversionIndex = 32768;
-				
+		    
+		    finalList.addAll(binaryList);
+			indexMerge = indexMerge + 1;
+			binaryList.clear();
+		
+		}
+		}
+		
+		// Modify the finalList to return every value as 16 bit binary and display the value in final output
+		
+		int [] finalOutput = new int [indexMerge];
+		
+		for (int x = 0; x <= indexMerge - 1; x ++) {
+			
+			int conversionIndex = 1;
+			
 		for (int i = 15; i >= 0; i--) {
 			
-			if (finalPortfolio[i][0] == 1) {
-				finalOutput = finalOutput + conversionIndex;
+			try {
+				if (finalList.get(0) == 1) {
+					
+					finalOutput[x] = finalOutput[x] + conversionIndex;
+					
+				}
+			}
+			catch (Exception e) {
+				
 			}
 			
-		conversionIndex = conversionIndex / 2;
+		finalList.remove(0);	
+		conversionIndex = conversionIndex * 2;
 			
 		}
 		
-		return finalOutput;
+		}
+		
+		//Sort the final output and display the largest one
+		
+		Arrays.sort(finalOutput);
+		
+		
+		return finalOutput[indexMerge - 1];
 	}
+	
 
 }
