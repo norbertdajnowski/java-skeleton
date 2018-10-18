@@ -6,9 +6,9 @@ public class Question1 {
 		
 		int [][] finalPortfolio = new int [portfolios.length][16];
 		
-		ArrayList<Integer> binaryList = new ArrayList<Integer>();
+		List<Integer> binaryList = new ArrayList();
 		
-		ArrayList<Integer> finalList = new ArrayList<Integer>();
+		List<Integer> finalList = new ArrayList();
 		
 		
 		// Take all porfolio's and convert to binary
@@ -92,6 +92,8 @@ public class Question1 {
 			
 		}
 		
+			System.out.println(finalOutput[x]+ "  ");
+		
 		}
 		
 		//Sort the final output and display the largest one
@@ -101,6 +103,7 @@ public class Question1 {
 		
 		return finalOutput[indexMerge - 1];
 	}
+	
 	
 
 }
